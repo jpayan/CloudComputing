@@ -1,0 +1,350 @@
+<div class="header">
+  <h1>Assignment 2</h1>
+</div>
+<div class="assignment">
+  <ol>
+    <li>
+      <b>Explain what CloudFormation is and write a YAML file to create a
+         bucket using CloudFormation.</b>
+      CloudFormation is a service released by Amazon in February of 2011.
+      Its main focus is to facilitate the provisioning and management of
+      your AWS resources by allowing you to create models or templates where
+      you describe the AWS resources that you need; AWS CloudFormation then
+      uses that template to create and/or configure your resources. These
+      templates can be either a JSON or a YAML format. Here is a quick example
+      of a template used to create an S3 Bucket:
+      <pre>
+        <code>  Resources:</code>
+        <code>    S3Bucket:</code>
+        <code>      Type: AWS::S3::Bucket</code>
+        <code>      Properties:</code>
+        <code>        AccessControl: PublicRead</code>
+        <code>        BucketName: payan-example-bucket</code>
+        <code>        WebsiteConfiguration:</code>
+        <code>          IndexDocument: index.html</code>
+        <code>          ErrorDocument: error.html</code>
+      </pre>
+    </li>
+    <li>
+      <b>Create a Hello World in NodeJs and create a tutorial about it.</b>
+      <br/>
+      <i>Based on <a href="https://howtonode.org/hello-node" target="_blank">
+        this tutorial.</a></i>
+      <br/>
+      Let’s create an easy Hello World example in NodeJS. Before we begin,
+      make sure to have
+      <a href="https://nodejs.org/en/download/package-manager/" target="_blank">
+        NodeJS and NPM
+      </a>installed in your computer. This example will consist on a HTTP server
+      that will reply to every request with the text "Hello, World!".
+      <br/>
+      <br/>
+      Alright, first we will need to require the HTTP module because this will
+      allow us to run this example as a web application.
+      <pre>
+        <code>  var http = require('http');</code>
+        <code></code>
+      </pre>
+      Now, lets configure our server in the following way:
+      <pre>
+        <code>  var server = http.createServer(function (request, response) {</code>
+        <code>    response.writeHead(200, {"Content-Type": "text/plain"});</code>
+        <code>    response.end("Hello, World!\n");</code>
+        <code>  });</code>
+        <code></code>
+      </pre>
+      By writing the code above, we are using the createServer method from the
+      http module; then, we are passing as a parameter to that method a function
+      that also receives two parameters, request and response. In the function's
+      code, we see that request is not used, that is because it is not relevant
+      to us (in this example) because no matter what we receive as a request, we
+      will always respond "Hello, World!". The method writeHead is setting the
+      headers of the response, which is the metadata of said response, in this
+      case, we are using a 200 status (OK) and a key-value pair describing the
+      type of the response ("text/plain").
+      <br/>
+      <br/>
+      Last, but not least, we need to make our little server run and listen to
+      requests. Do it by typing the code below:
+      <pre>
+        <code>  server.listen(8000)</code>
+        <code></code>
+      </pre>
+      In that line, we are telling the server to listen to any request in the port
+      8000, while the IP is set to 127.0.0.1 (localhost) by default.
+      <br/>
+      <br/>
+      Our final result should look like this:
+      <pre>
+        <code>  var http = require('http');</code>
+        <code></code>
+        <code>  var server = http.createServer(function (request, response) {</code>
+        <code>    response.writeHead(200, {"Content-Type": "text/plain"});</code>
+        <code>    response.end("Hello, World!\n");</code>
+        <code>  });</code>
+        <code></code>
+        <code>  server.listen(8000);</code>
+        <code></code>
+      </pre>
+      To run our example, save the code in a file named example.js and type in
+      your console the following commands:
+      <pre>
+        <code>  cd <i>~/PATH-TO-FILE/</i></code>
+        <code>  node example.js</code>
+        <code></code>
+      </pre>
+    </li>
+    <li>
+      <b>Install the AWS SDK for NodeJS and create a tutorial about it.</b>
+      <br/>
+      <br/>
+      This is a short tutorial on how to install the Amazon Web Services SDK
+      for NodeJS (JavaScript) on MacOS.
+      <br/>
+      <br/>
+      Let's begin by installing NodeJS. Update the package manager:
+      <pre>
+        <code>  brew update</code>
+        <code></code>
+      </pre>
+      Now, let's install NodeJS
+      <pre>
+        <code>  brew install node</code>
+        <code></code>
+      </pre>
+      To finish installing NodeJS, just run the following command:
+      <pre>
+        <code>  brew link node</code>
+        <code></code>
+      </pre>
+      This command links the package installed by brew in <i>/usr/local/Cellar</i>
+      to <i>/usr/local</i>, so when we type node or npm in the terminal, it will
+      run the package installed by brew.
+      <br/>
+      <br/>
+      Next we will install the AWS SDK:
+      <pre>
+        <code>  npm install aws-sdk</code>
+        <code></code>
+      </pre>
+      To get more information about the AWS SDK for NodeJS, click
+      <a href="https://aws.amazon.com/documentation/sdk-for-javascript/" target="_blank">
+        here</a>.
+    </li>
+    <li>
+      <b>Create a code in NodeJs that will tell you the version/date of
+         your website in S3.</b>
+      <pre>
+        <code>  var AWS = require('aws-sdk');</code>
+        <code>  var s3 = new AWS.S3();</code>
+        <code></code>
+        <code>  s3.listBuckets(function(err, data) {</code>
+        <code>      if (err) {</code>
+        <code>         console.log("Error", err);</code>
+        <code>      } else {</code>
+        <code>          var bucket = data.Buckets.find(</code>
+        <code>              function (bucket) {</code>
+        <code>                  return bucket.Name.match(/payan*/);</code>
+        <code>              }</code>
+        <code>          );</code>
+        <code>          console.log(bucket.CreationDate);</code>
+        <code>      }</code>
+        <code>   });</code>
+        <code></code>
+      </pre>
+    </li>
+    <li>
+      <b>Read and explain the post about Microservices Trade-Offs by Martin
+         Fowler
+        (<a href="http://martinfowler.com/articles/microservice-trade-offs.html"
+            target="_blank">http://martinfowler.com/articles/microservice-trade-offs.html</a>).
+      </b>
+      <br/>
+      <br/>
+      Martin Fowler once again talks about Microservices this time with a non-biased
+      pros vs cons list that allow us to understand the concept of Microservices,
+      as well as form a critic way of thinking when it comes to decide whether our
+      system should consist of Microservices or not.
+      <br/>
+      <br/>
+
+      <br/>
+      <b>+ Strong Module Boundaries</b>
+      <br/>
+      Microservices are all about modularity. Being able to maintain and escalate a module
+      comes in naturally with a microservices structure. Even though this can be achieved in
+      monolithic systems as well, Fowler mentions that it is rarely seen. Having such modular
+      structure allows multiple teams to work independently, with low to none risks of affecting
+      other modules.
+      <br/>
+      <br/>
+      <b>- Distribution</b>
+      <br/>
+      As Fowler says, "microservices use a distributed system to improve modularity", this means that
+      there will be a rise of complexity in the system, affecting many things, one of them being
+      performance. A main cause of this is that remote calls are expensive and the wait time of a
+      response can be noticeable.
+      <br/>
+      <br/>
+      <b>+ Independent Deployment</b>
+      <br/>
+      Due to it's modular approach, microservices can be deployed independently as features of
+      a system. This has allowed a vertical growing of a system and also has accelerated the rate
+      of delivery for companies.
+      <br/>
+      <br/>
+      <b>Eventual Consistency</b>
+      <br/>
+      This can be related to the performance problem caused by distribution. Having to wait for the
+      response of a service can lead the users to get irritated by using our system. Microservices
+      need to be updated independently and this wakes up a need to be aware at all times of consistency
+      issues.
+      <br/>
+      <br/>
+      <b>+ Technology Diversity</b>
+      <br/>
+      One of the nicest thins about Microservices is that you have the freedom of choosing a
+      technology for each one of your services. Unlike monolithic systems, you are not stuck
+      with only one technology, but now thanks to its lack of dependency, these can be
+      written in different languages and use completely different technologies.
+      <br/>
+      <br/>
+      <b>- Operational Complexity</b>
+      <br/>
+      This disadvantage is pretty self explanatory. Microservices systems require of more
+      attention and therefore more workers attending the multiple issues occurring at the
+      same time, as Fowler says "the difficulty of handling such a swarm of rapidly changing
+      tools".
+    </li>
+    <li>
+      <b>Create a comparison table between AWS, Azure and Google Cloud.</b>
+      <br/>
+      <table>
+        <tr>
+          <th></th>
+          <th>Amazon Web Services</th>
+          <th>Microsoft Azure</th>
+          <th>Google Compute</th>
+        </tr>
+        <tr>
+          <td>Serverless Computing</td>
+          <td>AWS Lambda</td>
+          <td>Azure Functions</td>
+          <td>Google Cloud Functions</td>
+        </tr>
+        <tr>
+          <td>Storage</td>
+          <td>S3</td>
+          <td>Azure Storage</td>
+          <td>Cloud Storage</td>
+        </tr>
+        <tr>
+          <td>Compute Services</td>
+          <td>Elastic Compute Cloud</td>
+          <td>Virtual Machines</td>
+          <td>Compute Engine</td>
+        </tr>
+        <tr>
+          <td>App Hosting</td>
+          <td>Amazon Elastic Beanstalk</td>
+          <td>Azure Websites, Batch, Scheduler</td>
+          <td>Google App Engine</td>
+        </tr>
+        <tr>
+          <td>Auto Scaling</td>
+          <td>Auto Scaling</td>
+          <td>Azure Autoscale</td>
+          <td>Autoscaler</td>
+        </tr>
+        <tr>
+          <td>Backups</td>
+          <td>Amazon Glacier</td>
+          <td>Azure Blob Storage</td>
+          <td>Persistent Disk</td>
+        </tr>
+        <tr>
+          <td>Database</td>
+          <td>Amazon Relational Database Service, Redshift</td>
+          <td>Azure SQL Database</td>
+          <td>Cloud SQL, Spanner</td>
+        </tr>
+        <tr>
+          <td>NoSQL Database</td>
+          <td>Amazon DynamoDB</td>
+          <td>Azure DocumentDB</td>
+          <td>Cloud Bigtable, Datastore</td>
+        </tr>
+        <tr>
+          <td>Networking</td>
+          <td>Amazon VPC, Direct Connect, Route53</td>
+          <td>Azure Virtual Network, ExpressRoute, Traffic Manager</td>
+          <td>Cloud Virtual Network, Cloud Interconnect, Cloud DNS</td>
+        </tr>
+        <tr>
+          <td>Security and Administration</td>
+          <td>Amazon IAM</td>
+          <td>Azure Active Directory</td>
+          <td>Cloud Identity And Access Management</td>
+        </tr>
+      </table>
+    </li>
+    <li>
+      <b>Read at least 5 sections of Seth Godin’s Manifesto: “Stop Stealing Dreams”
+         and tell me what you think about it.</b>
+      <br/>
+      <br/>
+      <b>10. Frederick J. Jelly and your nightmares</b>
+      <br/>
+      I think having a multiple-choice test shouldn’t determine your grades or your
+      intelligence. You have a test with 60 questions all with 4 possible correct
+      answers doesn’t sound like the best idea, because many students begin to think
+      “oh this one looks like the right answer” but maybe if you ask an average
+      person who was the 16th president of the united states not a lot of people
+      would say Abraham Lincoln. I’m saying that in these classes we even get taught
+      to “make an educated guess” and you wonder why lots of americans drop out of
+      college. This leap from high school to college is so heavily different that
+      it overwhelms them for the first time they don’t have a choice from A to D
+      they actually have to know what the answer is, and how do you expect them to
+      know when all they were ever taught was to pick the answer that looks best if
+      you don’t know.
+      <br/>
+      <br/>
+      <b>19. Dreams are difficult to build and easy to destroy</b>
+      <br/>
+      It’s hard to explain to people to an old generation mindset that school isn’t
+      for everyone and that not everyone wants to have a job where you sit in front
+      of computer every day. It’s hard for people to accept their dreams of becoming
+      something unrelated to school sometimes too. They sit there and think of how
+      their parents are going to accept that they want to pursue a in a music career
+      or to be a famous football player. I think people destroy these dreams indirectly
+      and/or directly.
+      <br/>
+      <br/>
+      <b>21. Two bumper stickers</b>
+      <br/>
+      I get mad too when I see those bumper stickers that say “Cut School Taxes” like
+      more than ever right now school has so little money to spend on students. Books
+      are outdated and equipments passed down because they don’t have enough money to
+      spend on modern technology for today’s students. It’s sad, but it’s true.
+      <br/>
+      <br/>
+      <b>29. The other side of fear is passion</b>
+      <br/>
+      We all the potential to do great things when we set our minds to it and even
+      better when it’s a passion because it’s truly what you want to do, because it’s
+      no longer a chore or something you have to do, it’s more of you wanting to do it
+      because it’s something you’re interested in and it captivates your mind to do more
+      than someone who just has to do it. Maybe passion could overcome fear because you’re
+      not scared of failing, you’re just learning from your mistakes.
+      <br/>
+      <br/>
+      <b>45. Shouldn’t parents do the motivating?</b>
+      <br/>
+      Of course parents should be more motivating, they should be there and helping you
+      succeed and also be supportive about it. And yes some of us are fortunate enough
+      to have parents that help us get determined in school, but others, not so much.
+      I think there are some children out that are struggling to do some things because
+      they don’t have the right role models or any at all.
+    </li>
+  </ol>
+</div>
