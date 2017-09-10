@@ -1,6 +1,136 @@
 <div class="header">
-  <h1>Assignment 2</h1>
+  <h1>Assignment 3</h1>
 </div>
 <div class="assignment">
-
+  <ol>
+    <li>
+      <b>Create a NodeJS script that will do the following:</b>
+      <ul>
+        <li>Download the image from s3://cc414-images/scientist.png.</li>
+        <li>Check if the metadata key “x-amz-meta-move” of the image is true.</li>
+        <li>If true, upload the image to s3://cc414-images/{MATRICULA}/image.png</li>
+      </ul>
+      <pre>
+        <code>  'use strict'; </code>
+        <code>  </code>
+        <code>  const AWS = require('aws-sdk'); </code>
+        <code>  const S3 = new AWS.S3({apiVersion: '2006-03-01'}); </code>
+        <code>  const FS = require("fs"); </code>
+        <code>  </code>
+        <code>  const BUCKET = "cc414-images" </code>
+        <code>  const KEY = "scientist.png" </code>
+        <code>  </code>
+        <code>  var downloadParams = { </code>
+        <code>      Bucket: BUCKET, </code>
+        <code>      Key: KEY </code>
+        <code>  }; </code>
+        <code>  </code>
+        <code>  S3.getObject(downloadParams, (error, data) => { //Download the image </code>
+        <code>      if(error) { </code>
+        <code>          console.log(error, error.stack); </code>
+        <code>      } </code>
+        <code>      else { </code>
+        <code>          FS.writeFile("scientist.png",data.Body); //Write the image </code>
+        <code>          console.log(data.Metadata); //See the Response Headers </code>
+        <code>  </code>
+        <code>          var uploadParams = { </code>
+        <code>              Bucket: BUCKET + "/23570", </code>
+        <code>              Key: KEY, </code>
+        <code>              Body: data.Body </code>
+        <code>          } </code>
+        <code>          //If the header move is true, upload the image </code>
+        <code>          if(data.Metadata.move) { </code>
+        <code>              S3.putObject(uploadParams, (error, data) => { </code>
+        <code>                  if(error) { </code>
+        <code>                      console.log(error, error.stack); </code>
+        <code>                  } </code>
+        <code>                  else { </code>
+        <code>                      console.log(data); </code>
+        <code>                  } </code>
+        <code>              }); </code>
+        <code>          } </code>
+        <code>      } </code>
+        <code>  }); </code>
+        <code>  </code>
+      </pre>
+      Source code:
+      <a href="https://github.com/PayanCloudComputing/Assignment3/blob/master/handle-image.js" target="_blank">
+        handle-image.js</a>
+    </li>
+    <li>
+      <b>Create a NodeJS script that will do the following:</b>
+      <ul>
+        <li>Will get the Nasa Astronomy Picture of the day.</li>
+        <li>Save the image in the local file system.</li>
+        <li>Print the title of the image.</li>
+      </ul>
+      <i style="text-align: left">
+        Done using documentation at:
+        <a href="https://nodejs.org/api/https.html#https_https_get_options_callback" target="_blank">
+          https://nodejs.org/api/https.html#https_https_get_options_callback
+        </a> and <br/>
+        <a href="https://h3manth.com/content/download-images-nodejs">
+          https://h3manth.com/content/download-images-nodejs
+        </a>
+      </i>
+      <pre style="font-size: x-small">
+        <code>  'use strict'; </code>
+        <code>   </code>
+        <code>  const HTTPS = require('https'); </code>
+        <code>  const FS = require('fs'); </code>
+        <code>  const URL = </code>
+        <code>    "https://api.nasa.gov/planetary/apod?api_key=ArbO7OpCyOOEpoa5hVgEjPtmIuUVwAuFb6JXhuZG"; </code>
+        <code>  const PATH = require('path'); </code>
+        <code>   </code>
+        <code>  //Getting picture from NASA's API </code>
+        <code>  HTTPS.get(URL, (res) => { </code>
+        <code>      res.setEncoding('utf8'); </code>
+        <code>      let rawData = ''; </code>
+        <code>      res.on('data', (chunk) => { </code>
+        <code>          rawData += chunk; </code>
+        <code>      }); </code>
+        <code>      res.on('end', () => { </code>
+        <code>        try { </code>
+        <code>          const parsedData = JSON.parse(rawData); </code>
+        <code>          let hdurl = parsedData.hdurl; </code>
+        <code>          let imgName = PATH.basename(hdurl); </code>
+        <code>          HTTPS.get(hdurl, (res) => { </code>
+        <code>              //Saving picture </code>
+        <code>              res.pipe(FS.createWriteStream(imgName)); </code>
+        <code>          }); </code>
+        <code>          //Printing picture's title </code>
+        <code>          if(parsedData.copyright) { </code>
+        <code>              console.log("Title: " + parsedData.title + </code>
+        <code>              " by " + parsedData.copyright); </code>
+        <code>          } </code>
+        <code>          else { </code>
+        <code>              console.log("Title: " + parsedData.title) </code>
+        <code>          } </code>
+        <code>        } catch (error) { </code>
+        <code>          console.error(error.message); </code>
+        <code>        } </code>
+        <code>      }); </code>
+        <code>  }); </code>
+        <code> </code>
+      </pre>
+    </li>
+    Source code:
+    <a href="https://github.com/PayanCloudComputing/Assignment3/blob/master/get-apod.js">
+      https://github.com/PayanCloudComputing/Assignment3/blob/master/get-apod.js
+    </a>
+    <li>
+      <b>Implement Google Analytics in your personal web site</b>
+    </li>
+    <li>
+      <b>Read and explain the following article by Martin Fowler:</b><br/>
+      <a href="http://martinfowler.com/articles/richardsonMaturityModel.html">
+        http://martinfowler.com/articles/richardsonMaturityModel.html</a>
+    </li>
+    <li>
+      <b>Explain why cloud computing is important.</b>
+    </li>
+    <li>
+      <b>Explain what would like to change in this class and why.</b>
+    </li>
+  </ol>
 </div>
