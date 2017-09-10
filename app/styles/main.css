@@ -9,8 +9,18 @@ body {
   padding: 0;
 }
 
-img.resize{
-  width:50%; /* you can use % */
+img.normal {
+  width: 100%;
+  height: auto;
+}
+
+img.small{
+  width: 75%;
+  height: auto;
+}
+
+img.smaller {
+  width: 50%; /* you can use % */
   height: auto;
 }
 
