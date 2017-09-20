@@ -80,6 +80,7 @@ angular.module('a1App')
           })
           .catch(function (error) {
             console.log(error);
+            $scope.common
           });
       }
       else {
