@@ -1,10 +1,224 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
-
-</body>
-</html>
+<div class="header">
+  <h1>Assignment 1</h1>
+</div>
+<div class="assignment">
+  <ol>
+    <li>
+      <b>Read the following article
+        <a href="http://martinfowler.com/articles/microservices.html" target="_blank">
+          http://martinfowler.com/articles/microservices.html</a>
+        and explain what "Microservices Architecture" means</b>
+      <p>
+        It’s basically an architecture that focuses on creating an application that is composed of
+        multiple smaller services, each of them running independently. This allows us to deploy
+        them individually and also offers us a sense of modularity, as each of these components
+        can be given maintenance and grow separately; they can even be written in different
+        languages. Microservices can adapt easier to different situations, you don’t have to
+        replicate all your work in many computers, you can simply replicate the same service if it
+        requires to take more load. Due to its particular design, this architecture turns out to be
+        formed of components that communicate with each other through simple interfaces, or
+        pipes, as the article mentions, “Smart endpoints and dumb pipes”. Having a
+        “Decentralized Governance” allows you to pick what technology to use for each
+        component, giving us a sense of freedom when designing our system.
+      </p>
+    </li>
+    <li>
+      <b>Create a bash file to setup a complete environment for this class.</b>
+      <pre>
+        <code>  #!/bin/bash </code>
+        <code>   </code>
+        <code>  APP=$1 </code>
+        <code>   </code>
+        <code>  echo "Installing Git" </code>
+        <code>  brew install git </code>
+        <code>  echo "Installing NodeJs..." </code>
+        <code>  brew update </code>
+        <code>  brew install node </code>
+        <code>  brew link --override node </code>
+        <code>  echo "Installing AWS CLI..." </code>
+        <code>  sudo easy_install pip </code>
+        <code>  pip install awscli --upgrade --user </code>
+        <code>  echo "Installing Yeoman..." </code>
+        <code>  sudo npm install -g yo </code>
+        <code>  echo "Installing Grunt..." </code>
+        <code>  sudo npm install grunt-cli -g </code>
+        <code>  echo "Installation completed." </code>
+        <code>  echo "Creating Angular project..." </code>
+        <code>  yo angular $APP </code>
+        <code>  echo "Setup completed." </code>
+        <code>  echo "Psst! Run grunt serve --force" </code>
+        <code>  </code>
+      </pre>
+      Source code:
+      <a href="https://github.com/PayanCloudComputing/Assignment1/blob/master/setup.sh" target="_blank">
+        https://github.com/PayanCloudComputing/Assignment1/blob/master/setup.sh
+      </a>
+    </li>
+    <li>
+      <b>Create a grunt task to deploy your website to your own bucket in S3.</b>
+      <pre style="font-size: xx-small">
+        <code>  #!/bin/bash </code>
+        <code>   </code>
+        <code>  BUCKET=$1 </code>
+        <code>  PROFILE=$2 </code>
+        <code>   </code>
+        <code>  if [ -z "$PROFILE" ] </code>
+        <code>  then </code>
+        <code>      $PROFILE=default </code>
+        <code>  fi </code>
+        <code>   </code>
+        <code>  l_bucket=$(echo "$BUCKET" | awk '{print tolower($0)}') #Changing bucket name to lower case </code>
+        <code>  echo "Downloading project..." </code>
+        <code>  git clone https://github.com/jpayan/CloudComputing.git </code>
+        <code>  cd CloudComputing </code>
+        <code>  npm install </code>
+        <code>  echo "Deploying project..." </code>
+        <code>  grunt build --force </code>
+        <code>  echo "Creating bucket..." </code>
+        <code>  if aws s3 ls "s3://$S3_BUCKET" --profile $PROFILE 2>&1 | grep -q 'NoSuchBucket' </code>
+        <code>  then </code>
+        <code>      echo "A new bucket will be created..." </code>
+        <code>      aws s3api create-bucket --bucket $l_bucket --profile $PROFILE </code>
+        <code>  else </code>
+        <code>      echo "Bucket already exists." </code>
+        <code>      echo "Deleting bucket's content..." </code>
+        <code>      aws s3 rm s3://$l_bucket --recursive --profile $PROFILE </code>
+        <code>  fi </code>
+        <code>  echo "Updating files to bucket..." </code>
+        <code>  cd dist </code>
+        <code>  aws s3 sync . s3://$l_bucket --acl public-read --profile $PROFILE </code>
+        <code>  aws s3 website s3://$l_bucket/ --index-document index.html --error-document 404.html --profile $PROFILE </code>
+        <code>  cd ../.. </code>
+        <code>  rm -rf CloudComputing </code>
+        <code>  </code>
+      </pre>
+      Source code:
+      <a href="https://github.com/PayanCloudComputing/Assignment1/blob/master/deploy.sh" target="_blank">
+        https://github.com/PayanCloudComputing/Assignment1/blob/master/deploy.sh
+      </a>
+    </li>
+    <li>
+      <b>Explain how routes work in angular and a code example.</b>
+      <p>
+        In an angular project you have a main template that is loaded once and then reused
+        continuously. We can achieve this with routing because it allows us to connect the
+        controllers and the templates. In angular, we use a $routeProvider service that is in
+        charge of matching the URL to the templates and controllers.
+        Example:
+      </p>
+      <pre>
+        <code>  'use strict'; </code>
+        <code>   </code>
+        <code>  /** </code>
+        <code>   * @ngdoc overview </code>
+        <code>   * @name a1App </code>
+        <code>   * @description </code>
+        <code>   * # a1App </code>
+        <code>   * </code>
+        <code>   * Main module of the application. </code>
+        <code>   */ </code>
+        <code>  angular </code>
+        <code>    .module('a1App', [ </code>
+        <code>      'ngAnimate', </code>
+        <code>      'ngCookies', </code>
+        <code>      'ngResource', </code>
+        <code>      'ngRoute', </code>
+        <code>      'ngSanitize', </code>
+        <code>      'ngTouch' </code>
+        <code>    ]) </code>
+        <code>    .config(function ($routeProvider) { </code>
+        <code>      $routeProvider </code>
+        <code>        .when('/', { </code>
+        <code>          templateUrl: 'views/main.html', </code>
+        <code>          controller: 'MainCtrl', </code>
+        <code>          controllerAs: 'main' </code>
+        <code>        }) </code>
+        <code>        .when('/about', { </code>
+        <code>          templateUrl: 'views/about.html', </code>
+        <code>          controller: 'AboutCtrl', </code>
+        <code>          controllerAs: 'about' </code>
+        <code>        }) </code>
+        <code>        .when('/assignments', { </code>
+        <code>          templateUrl: 'views/assignments.html', </code>
+        <code>          controller: 'AssignmentsCtrl', </code>
+        <code>          controllerAs: 'assignments' </code>
+        <code>        }) </code>
+        <code>        .when('/dontclicme', { </code>
+        <code>          templateUrl: 'views/me.html', </code>
+        <code>          controller: 'MeCtrl', </code>
+        <code>          controllerAs: 'me' </code>
+        <code>        }) </code>
+        <code>        .otherwise({ </code>
+        <code>          redirectTo: '/' </code>
+        <code>        }); </code>
+        <code>    }); </code>
+        <code>  </code>
+      </pre>
+      Source code:
+      <a href="https://github.com/PayanCloudComputing/Assignment1/blob/master/routing.js" target="_blank">
+        https://github.com/PayanCloudComputing/Assignment1/blob/master/routing.js
+      </a>
+      <p>
+        In this example, we can see how the $routeProvider service matches the URL’s, like
+        ‘/about’ to the template about.html and the controller AboutCtrl, and so on. We can also
+        see that if no URL is matched, it will redirect us to the index template in the .otherwise
+        section.
+      </p>
+    </li>
+    <li>
+      <b>Explain how you can have more than one access key in your computer and how to
+        use each one. Provide code or configuration examples.
+      </b>
+      <p>
+        In the AWS CLI you can work with multiple access keys by using profiles. Ass you add
+        more keys to your credentials file, it is a good practice to name them to be able to tell the
+        difference between profiles and then write in a config file within the .aws directory, we
+        can add the region that each profile belongs to.
+      </p>
+      <p>
+        Example:
+      </p>
+      <pre>
+        <code>  Path: ~/.aws/credentials </code>
+        <code>  [default] </code>
+        <code>  aws_access_key_id=EXAMPLEKKEYIDFORDEFAULT </code>
+        <code>  aws_secret_access_key=EXAMPLESECRETACCESSKEYFORDEFAULT </code>
+        <code>  </code>
+        <code>  [someuser] </code>
+        <code>  aws_access_key_id=EXAMPLEKEYIDFORSOMEUSER </code>
+        <code>  aws_secret_access_key=EXAMPLESECRETACCESSKEYFORSOMEUSER </code>
+        <code>  </code>
+      </pre>
+      Source code:
+      <a href="https://github.com/PayanCloudComputing/Assignment1/blob/master/credentialsExample" target="_blank">
+        https://github.com/PayanCloudComputing/Assignment1/blob/master/credentialsExample
+      </a>
+      <pre>
+        <code>  Path: ~/.aws/config </code>
+        <code>  [default] </code>
+        <code>  region=us-east-1 </code>
+        <code>  output=json </code>
+        <code>  </code>
+        <code>  [profile someuser] </code>
+        <code>  region=us-west-1 </code>
+        <code>  output=json </code>
+        <code>  </code>
+      </pre>
+      <a href="https://github.com/PayanCloudComputing/Assignment1/blob/master/configExample" target="_blank">
+        https://github.com/PayanCloudComputing/Assignment1/blob/master/configExample
+      </a>
+    </li>
+    <li>
+      <b>Explain what are you going to do different this semester based on last semester
+        experience.</b>
+      <p>
+        Last semester I didn’t know how to manage my time proficiently, and I had many things
+        interfere with my life. I hope to organize my time and learn how to separate my work,
+        school, and personal life. I find it difficult to utilize my time wisely because it consist of
+        things that are all abundantly important to me. As time goes on I hope to build enough
+        experience to organize my time efficiently and give everything the importance it
+        deserves.
+      </p>
+    </li>
+  </ol>
+</div>

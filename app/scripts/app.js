@@ -34,6 +34,11 @@ angular
         controller: 'AssignmentsCtrl',
         controllerAs: 'assignments'
       })
+      .when('/assignments/0', {
+        templateUrl: 'views/assignment0.html',
+        controller: 'Assignment0Ctrl',
+        controllerAs: 'assignment0'
+      })
       .when('/assignments/1', {
         templateUrl: 'views/assignment1.html',
         controller: 'Assignment1Ctrl',
@@ -48,6 +53,11 @@ angular
         templateUrl: 'views/assignment3.html',
         controller: 'Assignment3Ctrl',
         controllerAs: 'assignment3'
+      })
+      .when('/assignments/4', {
+        templateUrl: 'views/assignment4.html',
+        controller: 'Assignment4Ctrl',
+        controllerAs: 'assignment4'
       })
       .when('/dontclicme', {
         templateUrl: 'views/me.html',

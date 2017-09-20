@@ -1,0 +1,47 @@
+<div class="header">
+  <h1>Assignment 4</h1>
+</div>
+<div class="row space">
+  <h3 class="col-lg-12">Marvel API</h3>
+  <p>Source Code:
+    <a href="https://github.com/PayanCloudComputing/Assignment4" target="_blank">
+      here.
+    </a>
+  </p>
+</div>
+<div class="row space">
+  <h3>Characters</h3>
+  <div class="col-lg-6">
+    <select id="select1" ng-model="char1">
+      <option ng-repeat="character1 in characters" value="{{character1.id}}">
+        {{character1.name}}
+      </option>
+    </select>
+  </div>
+  <div class="col-lg-6">
+    <select id="select2" ng-model="char2">
+      <option ng-repeat="character2 in characters" value="{{character2.id}}">
+        {{character2.name}}
+      </option>
+    </select>
+  </div>
+</div>
+<div class="row space">
+  <div class="col-lg-6">
+    <button type="button" class="btn btn-light" ng-click="getCommonComics(char1, char2)">Common Comics</button>
+  </div>
+  <div class="col-lg-6">
+    <button type="button" class="btn btn-light" ng-click="getCommonSeries(char1, char2)">Common Series</button>
+  </div>
+</div>
+<div class="row" ng-show="show">
+  <h4>Latency: {{latency}}</h4>
+</div>
+<div class="row" ng-show="show">
+  <h4>Results: </h4>
+  <pre>
+    <ol>
+      <li ng-repeat="title in common">{{title}}</li>
+    </ol>
+  </pre>
+</div>

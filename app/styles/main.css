@@ -130,6 +130,15 @@ tr:nth-child(even) {
   background-color: #dddddd;
 }
 
+div.row.space {
+  text-align: center;
+  margin: 3em 0;
+}
+
+.btn-light {
+  background-color: #f8f9fa;
+}
+
 /* Responsive: Portrait tablets and up */
 @media screen and (min-width: 768px) {
   .container {
