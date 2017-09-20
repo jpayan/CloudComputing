@@ -1,0 +1,38 @@
+{
+  "name": "angular-bluebird-promises",
+  "version": "1.0.2",
+  "homepage": "https://github.com/mattlewis92/angular-bluebird-promises",
+  "authors": [
+    "Matt Lewis"
+  ],
+  "description": "Replaces $q with bluebirds promise API",
+  "main": "dist/angular-bluebird-promises.js",
+  "keywords": [
+    "angular",
+    "bluebird",
+    "promise"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests",
+    "src",
+    "test"
+  ],
+  "dependencies": {
+    "angular": ">=1.2.0",
+    "bluebird": ">=2.0.0"
+  },
+  "_release": "1.0.2",
+  "_resolution": {
+    "type": "version",
+    "tag": "1.0.2",
+    "commit": "a8e14ae0d75a730039fcb506d0b950d77ba8eb62"
+  },
+  "_source": "https://github.com/mattlewis92/angular-bluebird-promises.git",
+  "_target": "^1.0.2",
+  "_originalSource": "angular-bluebird-promises"
+}

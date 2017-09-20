@@ -15,7 +15,8 @@ angular
     'ngResource',
     'ngRoute',
     'ngSanitize',
-    'ngTouch'
+    'ngTouch',
+    'mwl.bluebird'
   ])
   .config(function ($routeProvider) {
     $routeProvider

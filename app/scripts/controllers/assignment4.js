@@ -34,82 +34,64 @@ angular.module('a1App')
     $scope.getCommonComics = function(idChar1, idChar2) {
       var comicsChar1 = [];
       var comicsChar2 = [];
-      var startTime = new Date();
+      var start = new Date();
 
       if (idChar1 != idChar2) {
-        $http.get(baseEndPoint + '/' + idChar1.toString() + '/comics').then(
-          function success(response) {
-            comicsChar1 = response.data;
-            $http.get(baseEndPoint + '/' + idChar2.toString() + '/comics').then(
-              function success(response) {
-                comicsChar2 = response.data;
-                intersect(comicsChar1, comicsChar2);
-                var endTime = new Date();
-                calculateLatency(startTime, endTime);
-              },
-              function fail(error) {
-                console.log(error);
-              }
-            );
-          },
-          function fail(error) {
-            console.log(error);
-          }
-        );
+        return Promise.join(
+          $http.get(baseEndPoint + '/' + idChar1.toString() + '/comics'),
+          $http.get(baseEndPoint + '/' + idChar2.toString() + '/comics'),
+          function(resultA, resultB) {
+            comicsChar1 = resultA.data;
+            comicsChar2 = resultB.data;
+            intersect(comicsChar1, comicsChar2);
+            calculateLatency(start);
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
       }
       else {
-        $http.get(baseEndPoint + '/' + idChar1.toString() + '/comics').then(
-          function success(response) {
-            comicsChar1 = response.data;
-            writeResults(comicsChar1);
-            var endTime = new Date();
-            calculateLatency(startTime, endTime)
-          },
-          function fail(error) {
+        $http.get(baseEndPoint + '/' + idChar1.toString() + '/comics')
+          .then(function success(response) {
+              comicsChar1 = response.data;
+              writeResults(comicsChar1);
+              calculateLatency(start);
+          })
+          .catch(function (error) {
             console.log(error);
-          }
-        );
+          });
       }
     }
 
     $scope.getCommonSeries = function(idChar1, idChar2) {
       var seriesChar1 = [];
       var seriesChar2 = [];
-      var startTime = new Date();
+      var start = new Date();
 
       if (idChar1 != idChar2) {
-        $http.get(baseEndPoint + '/' + idChar1.toString() + '/series').then(
-          function success(response) {
-            seriesChar1 = response.data;
-            $http.get(baseEndPoint + '/' + idChar2.toString() + '/series').then(
-              function success(response) {
-                seriesChar2 = response.data;
-                intersect(seriesChar1, seriesChar2);
-                var endTime = new Date();
-                calculateLatency(startTime, endTime);
-              },
-              function fail(error) {
-                console.log(error);
-              }
-            );
-          },
-          function fail(error) {
+        return Promise.join(
+          $http.get(baseEndPoint + '/' + idChar1.toString() + '/series'),
+          $http.get(baseEndPoint + '/' + idChar2.toString() + '/series'),
+          function(resultA, resultB) {
+            seriesChar1 = resultA.data;
+            seriesChar2 = resultB.data;
+            intersect(seriesChar1, seriesChar2);
+            calculateLatency(start);
+          })
+          .catch(function (error) {
             console.log(error);
-          }
-        );
+          });
       }
       else {
-        $http.get(baseEndPoint + '/' + idChar1.toString() + '/series').then(
-          function success(response) {
+        $http.get(baseEndPoint + '/' + idChar1.toString() + '/series')
+          .then(function success(response) {
             seriesChar1 = response.data;
             writeResults(seriesChar1);
-            var endTime = new Date();
-            calculateLatency(startTime, endTime);
-          },
-          function fail(error) {
+            calculateLatency(start);
+          })
+          .catch(function (error) {
             console.log(error);
-          }
-        );
+          });
       }
     }
 
@@ -139,7 +121,8 @@ angular.module('a1App')
       $scope.show = true;
     }
 
-    function calculateLatency(start, end) {
+    function calculateLatency(start) {
+      var end = new Date();
       var latency = end - start;
       $scope.latency = latency + " ms";
     }
