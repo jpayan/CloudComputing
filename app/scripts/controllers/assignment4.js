@@ -17,17 +17,22 @@ angular.module('a1App')
 
     $scope.show = false;
 
-    var baseEndPoint = 'https://wlmx0qc824.execute-api.us-east-1.amazonaws.com/dev/characters'
+    var baseEndPoint = 'https://wlmx0qc824.execute-api.us-east-1.amazonaws.com/dev/characters';
+    var headers = {
+      headers: {'x-api-key': '80cSycaEqPEQxCScdTmgfj5hXszqBG1JHkQaENe0'}
+    };
     var characters = [];
     var common = [];
 
-    $http.get(baseEndPoint).then(
+    $http.get(baseEndPoint, headers).then(
       function success(response) {
         characters = response.data;
         $scope.characters = characters;
       },
       function fail(error) {
         console.log(error);
+        $scope.common = error;
+        $scope.show = true;
       }
     );
 
@@ -38,8 +43,8 @@ angular.module('a1App')
 
       if (idChar1 != idChar2) {
         return Promise.join(
-          $http.get(baseEndPoint + '/' + idChar1.toString() + '/comics'),
-          $http.get(baseEndPoint + '/' + idChar2.toString() + '/comics'),
+          $http.get(baseEndPoint + '/' + idChar1.toString() + '/comics', headers),
+          $http.get(baseEndPoint + '/' + idChar2.toString() + '/comics', headers),
           function(resultA, resultB) {
             comicsChar1 = resultA.data;
             comicsChar2 = resultB.data;
@@ -48,6 +53,8 @@ angular.module('a1App')
         })
         .catch(function (error) {
           console.log(error);
+          $scope.common = error;
+          $scope.show = true;
         });
       }
       else {
@@ -70,8 +77,8 @@ angular.module('a1App')
 
       if (idChar1 != idChar2) {
         return Promise.join(
-          $http.get(baseEndPoint + '/' + idChar1.toString() + '/series'),
-          $http.get(baseEndPoint + '/' + idChar2.toString() + '/series'),
+          $http.get(baseEndPoint + '/' + idChar1.toString() + '/series', headers),
+          $http.get(baseEndPoint + '/' + idChar2.toString() + '/series', headers),
           function(resultA, resultB) {
             seriesChar1 = resultA.data;
             seriesChar2 = resultB.data;
