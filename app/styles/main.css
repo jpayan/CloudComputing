@@ -135,8 +135,67 @@ div.row.space {
   margin: 3em 0;
 }
 
+div.row.space-small {
+  text-align: center;
+  margin: 1em 0;
+}
+
 .btn-light {
   background-color: #f8f9fa;
+}
+
+input[type=checkbox] {
+  height: 0;
+  width: 0;
+  visibility: hidden;
+}
+
+label {
+  cursor: pointer;
+  text-indent: -9999px;
+  width: 75px;
+  height: 38px;
+  background: grey;
+  display: block;
+  border-radius: 100px;
+  position: relative;
+}
+
+label:after {
+  content: '';
+  position: absolute;
+  top: 5px;
+  left: 5px;
+  width: 28px;
+  height: 28px;
+  background: #fff;
+  border-radius: 23px;
+  transition: 0.3s;
+}
+
+.secure {
+  direction: rtl;
+  padding-bottom: 15px;
+}
+
+input:checked + label {
+  background: #0076FF;
+}
+
+input:checked + label:after {
+  left: calc(100% - 5px);
+  transform: translateX(-100%);
+}
+
+label:active:after {
+  width: 33px;
+}
+
+.Content
+{
+  height: 200px;
+  overflow:auto;
+  padding-left: 10px;
 }
 
 /* Responsive: Portrait tablets and up */
