@@ -1,0 +1,109 @@
+<div class="header">
+  <h1>Assignment 5</h1>
+</div>
+<div>
+  <b>1. Secure your API Gateway end points from last assignment.</b>
+  Source code: <a href="https://github.com/PayanCloudComputing/Assignment5" target="_blank">
+  here.</a>
+</div>
+<div class="secure">
+  <h4>Secure End Points</h4>
+  <input type="checkbox" id="switch" ng-model="secure"/><label for="switch"/>
+</div>
+<div class="secure">
+</div>
+<div>
+  <ul class="list-group">
+    <li class="list-group-item">
+      <div class="row space-small">
+        <div class="col-lg-4">
+          <b>End Point:</b> Get Characters
+        </div>
+        <div class="col-lg-4">
+          <b>Method: </b> GET
+        </div>
+        <div class="col-lg-4">
+          <button type="button" class="btn btn-light" ng-click="getCharacters()">Get Characters</button>
+        </div>
+      </div>
+      <pre class="Content">
+        {{charactersError}}
+        <ol>
+          <li ng-repeat="character in characters">{{character.name}}</li>
+        </ol>
+      </pre>
+    </li>
+    <li class="list-group-item">
+      <div class="row space-small">
+        <div class="col-lg-3">
+          <b>End Point:</b> Get Character Comics
+        </div>
+        <div class="col-lg-3">
+          <b>Method: </b> GET
+        </div>
+        <div class="col-lg-3">
+          <b>Params: </b> Id: 1010733 (Star-Lord)
+        </div>
+        <div class="col-lg-3">
+          <button type="button" class="btn btn-light" ng-click="getComics(1010733)">Get Comics</button>
+        </div>
+      </div>
+      <pre class="Content">
+        {{comicsError}}
+        <ol>
+          <li ng-repeat="comic in comics">{{comic.title}}</li>
+        </ol>
+      </pre>
+    </li>
+    <li class="list-group-item">
+      <div class="row space-small">
+        <div class="col-lg-3">
+          <b>End Point:</b> Get Character Series
+        </div>
+        <div class="col-lg-3">
+          <b>Method: </b> GET
+        </div>
+        <div class="col-lg-3">
+          <b>Params: </b> Id: 1010744 (Rocket Raccoon)
+        </div>
+        <div class="col-lg-3">
+          <button type="button" class="btn btn-light" ng-click="getSeries(1010744)">Get Series</button>
+        </div>
+      </div>
+      <pre class="Content">
+        {{seriesError}}
+        <ol>
+          <li ng-repeat="current in series">{{current.title}}</li>
+        </ol>
+      </pre>
+    </li>
+  </ul>
+</div>
+<div>
+  <b>2. List the 3 main things you need to do in order achieve your professional goals.</b>
+  <ul>
+    <li>
+      Overcoming setbacks. Life is not always as pleasant as we wish it was, nonetheless there is always something good
+      to live for. Bad experiences happen to everyone, and even though we might think that the worst thing ever has
+      happened to us, there are people that are going through or have gone through something just as severe. To do so,
+      as mentioned by Sheryl Sandberg in her book Option B (2017), we must defeat and forget about the three P's:
+      <ol>
+        <li>Personalization: "It's all my fault."</li>
+        <li>Pervasiveness: "Because of this, I'm affecting everything and everyone around me."</li>
+        <li>Permanence: "This will never get better."</li>
+      </ol>
+    </li>
+    <li>
+      Focusing on tomorrow without losing track of today. It is not wise to adventure to the real world without a plan,
+      but nothing will workout if we don't pay attention to today. It simply doesn't make sense. If we worry too much
+      about tomorrow, we tend to care less about today, and with so we forget that it is in the today when we get ready
+      for tomorrow.
+    </li>
+    <li>
+      Asking for help. And this one is more personal, enough reason why I will write this paragraph in first person. I
+      usually try to prove to myself that I can get through this by myself. That I don't need any special treatment,
+      that achieving something with help is not as satisfying as achieving it by myself, but it is time for me to mature.
+      I have to grow up and accept that I am not unbreakable, that I don't know everything and that I need help.
+    </li>
+  </ul>
+</div>
