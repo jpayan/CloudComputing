@@ -1,0 +1,124 @@
+<div class="header">
+  <h1>Assignment 6</h1>
+</div>
+<div class="assignment">
+  <ol>
+    <li>
+      <b>Read the AWS Well Architected Framework and make a summary about the 5 pillars
+      <a href="https://d0.awsstatic.com/whitepapers/architecture/AWS_WellArchitected_Framework.pdf" target="_blank">
+        https://d0.awsstatic.com/whitepapers/architecture/AWS_WellArchitected_Framework.pdf</a></b>
+      <br/><br/>
+      <p>
+        There are always many ways of accomplishing an objective, most of them focus on specific aspects, and among
+        these ways we can also always find the right way of doing something. What differences the right way from the
+        others is planning, designing taking into consideration every single requirement of the objective to be
+        accomplished. And the vast world of Computer Science is not excluded from the previous statement, being the
+        objective a strong, reliable, consistent, longevous system. Hence, here are the five pillars of the
+        Well-Architected Framework.
+      </p>
+      <ul>
+        <li>
+          <b>Security Pillar</b>
+          <p>
+            Security means being able to protect information and the system itself from any kind of corruption,
+            regardless of its origin (external or internal). It is of prime importance to establish rules concerning
+            privileges of components and/or users, to have a fine-grained defined access policy, and to respond
+            accordingly to any type of incident.
+            <br/>
+            In order to achieve and ensure a system's security, here are a few main-focus points:
+            <ul>
+              <li>
+                The system should posses a multi-level security, protecting the flow of data between every layer, instead
+                of doing so for only the layer that communicates the system to the exterior.
+              </li>
+              <li>
+                Errors must be traceable anywhere in the system. To do so, all actions should be logged.
+              </li>
+              <li>
+                Avoiding an overly permissive system by handling each one of the system's interaction with only the necessary
+                permissions.
+              </li>
+              <li>
+                Ensuring the integrity of the data / avoiding corruption.
+              </li>
+              <li>
+                Creating a trust zone by automating the response of the system to any malfunction or uncommon behavior.
+              </li>
+            </ul>
+            The best practices to fulfill the previous focus points are:
+            <br/>
+            <b>Identity and Access Management:</b> Making sure that only authorized users are able to interact with the
+            system's resources, and that resources have no possibility of interacting with resources in an unintended way.
+            <br/>
+            <b>Detective Controls:</b> Constant monitoring of the system, analysis of logs and implementation of alarms
+            that allows the developers to tract and isolate unwanted behaviors.
+            <br/>
+            <b>Infrastructure Protection:</b> Boundary protections, enforcing multiple level security.
+            <br/>
+            <b>Data Protection:</b> Categorizing data by sensitivity and encrypting primordial data.
+            <br/>
+            <b>Incident Response:</b> Accordingly and automatically respond to any incident that happens within the system.
+          </p>
+        </li>
+        <li>
+          <b>Reliability Pillar</b>
+          <p>
+            Having a reliable system means having a system that is able to recover from any incident and autoscale
+            depending on its demand. To achieve this, we must focus on testing not only the behavior of the system in
+            specific situations, but also recovery strategies and automating them; breaking down the system into
+            smaller components to add modular maintenance; adding an autoscaling capacity to the system, in order to
+            avoid over saturation of resources; automating every change that wants to be done to the system.
+          </p>
+        </li>
+        <li>
+          <b>Performance Efficiency Pillar</b>
+          <p>
+            An efficient system is that one that correctly adapts to the requirements and keeping the performance
+            constant in many situations. To keep a good performance in the system, we should utilize the adequate
+            technologies; deliver accessibility to the system in multiple parts of the planet to minimize latency.
+          </p>
+        </li>
+        <li>
+          <b>Cost Optimization Pillar</b>
+          <p>
+            Minimizing costs for a system implies clinging to the absolutely necessary technical specifications, and
+            improving this with time. A few good practices to minimize costs without affecting the system's performance
+            are avoiding having resources running while not being used; use a cloud computing provider to eliminate the
+            need of physical equipment besides working stations.
+          </p>
+        </li>
+        <li>
+          <b>Operational Excellence Pillar</b>
+          <p>
+            The operational excellence is achieved by performing a well planned development process, in which every part
+            of the system is tested against unexpected behaviors, environments and events; by allowing easy and quick
+            understanding of the code through good documentation and code reviews; by implementing a modular design that
+            allows the development team to maintain the system with small changes rather than changes that imply
+            modifying most of the system itself; by improving based on previous events or situations that were not
+            expected and caused malfunctioning of the system and by automating most of the previously mentioned.
+          </p>
+        </li>
+      </ul>
+    </li>
+    <li>
+      <b>Explain how you will apply the AWS Well Architecture Framework to your project.</b>
+      <br/>
+      <i>Teamwork: Manuel Puentes</i>
+      <br/>
+      We will apply the five pillars of the well-architected framework as much as possible to our project. Security in
+      our system will be implemented in multiple levels. In the highest level, the users will have to sing in whenever
+      entering our page, in a slightly lower level, every remote call to our API will also have to go through an
+      authentication process. Going a little farther down, in our back-end, we will protect every interaction between
+      our resources through the implementation of fine-grained permissions/access. To achieve the tracking of any
+      malfunctioning in our system, we will make sure of creating logs of every action within our system. When talking
+      about reliability, our system is ready to be deployed with a single command already, and we plan on automating
+      this in case any of our resources goes down. Our system will be efficient in performance because we already went
+      through a phase of research in order to decide the best technologies that will be used in the development. For
+      cost optimization, our system will run with a serverless architecture, giving it that autoscaling characteristic
+      that a good system needs. We will also, after analysing, define the requirements of each resource in terms of
+      memory size, read/write throughput, technical specifications, among others. Finally, for operational excellence,
+      we will do integration testing to avoid unwanted behaviors, this including the recovery from these, also, with our
+      serverless, microservice architecture, we are able to "make regular, small, incremental changes.
+    </li>
+  </ol>
+</div>
