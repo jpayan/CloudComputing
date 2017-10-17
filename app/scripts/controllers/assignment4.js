@@ -18,16 +18,15 @@ angular.module('a1App')
     $scope.show = false;
 
     var baseEndPoint = 'https://wlmx0qc824.execute-api.us-east-1.amazonaws.com/dev/characters';
-    var headers = {
+    var config = {
       headers: {'x-api-key': '80cSycaEqPEQxCScdTmgfj5hXszqBG1JHkQaENe0'}
     };
-    var characters = [];
-    var common = [];
 
-    $http.get(baseEndPoint, headers).then(
+    $scope.selected = true;
+    $http.get(baseEndPoint, config).then(
       function success(response) {
-        characters = response.data;
-        $scope.characters = characters;
+        $scope.selected = false;
+        $scope.characters = response.data;
       },
       function fail(error) {
         console.log(error);
@@ -36,97 +35,25 @@ angular.module('a1App')
       }
     );
 
-    $scope.getCommonComics = function(idChar1, idChar2) {
-      var comicsChar1 = [];
-      var comicsChar2 = [];
+    $scope.getCommon = function(idChar1, idChar2) {
+      $scope.commonComics = [{title: 'Loading...'}];
+      $scope.commonSeries = [{title: 'Loading...'}];
+      $scope.show = false;
       var start = new Date();
-
+      config.params = {'char1': idChar1, 'char2': idChar2};
       if (idChar1 != idChar2) {
-        return Promise.join(
-          $http.get(baseEndPoint + '/' + idChar1.toString() + '/comics', headers),
-          $http.get(baseEndPoint + '/' + idChar2.toString() + '/comics', headers),
-          function(resultA, resultB) {
-            comicsChar1 = resultA.data;
-            comicsChar2 = resultB.data;
-            intersect(comicsChar1, comicsChar2);
-            calculateLatency(start);
-        })
-        .catch(function (error) {
+        $http.get(baseEndPoint + '/common', config)
+        .then(function success(response) {
+          var data = response.data;
+          $scope.commonComics = (data['comics'].length) ? data['comics'] : [{title: 'No comics in common.'}];
+          $scope.commonSeries = (data['series'].length) ? data['series'] : [{title: 'No series in common.'}];
+          calculateLatency(start);
+        }).catch(function(error) {
           console.log(error);
-          $scope.common = error;
+          $scope.error = error;
           $scope.show = true;
         });
       }
-      else {
-        $http.get(baseEndPoint + '/' + idChar1.toString() + '/comics')
-          .then(function success(response) {
-              comicsChar1 = response.data;
-              writeResults(comicsChar1);
-              calculateLatency(start);
-          })
-          .catch(function (error) {
-            console.log(error);
-          });
-      }
-    }
-
-    $scope.getCommonSeries = function(idChar1, idChar2) {
-      var seriesChar1 = [];
-      var seriesChar2 = [];
-      var start = new Date();
-
-      if (idChar1 != idChar2) {
-        return Promise.join(
-          $http.get(baseEndPoint + '/' + idChar1.toString() + '/series', headers),
-          $http.get(baseEndPoint + '/' + idChar2.toString() + '/series', headers),
-          function(resultA, resultB) {
-            seriesChar1 = resultA.data;
-            seriesChar2 = resultB.data;
-            intersect(seriesChar1, seriesChar2);
-            calculateLatency(start);
-          })
-          .catch(function (error) {
-            console.log(error);
-            $scope.common
-          });
-      }
-      else {
-        $http.get(baseEndPoint + '/' + idChar1.toString() + '/series')
-          .then(function success(response) {
-            seriesChar1 = response.data;
-            writeResults(seriesChar1);
-            calculateLatency(start);
-          })
-          .catch(function (error) {
-            console.log(error);
-          });
-      }
-    }
-
-    function intersect(array1, array2) {
-      var intersection = [];
-      while( array1.length > 0 && array2.length > 0 ) {
-        if (array1[0] < array2[0] ) {
-          array1.shift();
-        }
-        else if (array1[0] > array2[0] ) {
-          array2.shift();
-        }
-        else {
-          intersection.push(array1.shift());
-          array2.shift();
-        }
-      }
-      writeResults(intersection);
-    }
-
-    function writeResults(results) {
-      common = [];
-      for(var index = 0; index < results.length; index++) {
-        common.push(results[index].title);
-      }
-      $scope.common = common;
-      $scope.show = true;
     }
 
     function calculateLatency(start) {

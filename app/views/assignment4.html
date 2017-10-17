@@ -27,21 +27,46 @@
   </div>
 </div>
 <div class="row space">
-  <div class="col-lg-6">
-    <button type="button" class="btn btn-light" ng-click="getCommonComics(char1, char2)">Common Comics</button>
-  </div>
-  <div class="col-lg-6">
-    <button type="button" class="btn btn-light" ng-click="getCommonSeries(char1, char2)">Common Series</button>
+  <div class="col-lg-12">
+    <button type="button" class="btn btn-light" ng-click="getCommon(char1, char2)">GO</button>
   </div>
 </div>
-<div class="row" ng-show="show">
+<div>
   <h4>Latency: {{latency}}</h4>
 </div>
-<div class="row" ng-show="show">
-  <h4>Results: </h4>
-  <pre>
-    <ol>
-      <li ng-repeat="title in common">{{title}}</li>
-    </ol>
-  </pre>
+<div ng-show="!show">
+  <div>
+    <h4>Comics</h4>
+  </div>
+  <div class="row space">
+    <div class="col-lg-12">
+      <pre class="Content">
+        <ol>
+          <li ng-repeat="comic in commonComics">{{comic.title}}</li>
+        </ol>
+      </pre>
+    </div>
+  </div>
+  <div>
+    <h4>Series</h4>
+  </div>
+  <div class="row space">
+    <div class="col-lg-12">
+      <pre class="Content">
+        <ol>
+          <li ng-repeat="series in commonSeries">{{series.title}}</li>
+        </ol>
+      </pre>
+    </div>
+  </div>
+</div>
+<div class="row space"  ng-show="show">
+  <div>
+    <h4>Errors:</h4>
+  </div>
+  <div class="col-lg-12">
+    <pre class="Content">
+      {{error}}
+    </pre>
+  </div>
 </div>
