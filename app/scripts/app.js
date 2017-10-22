@@ -75,6 +75,11 @@ angular
         controller: 'Assignment7Ctrl',
         controllerAs: 'assignment7'
       })
+      .when('/assignments/8', {
+        templateUrl: 'views/assignment8.html',
+        controller: 'Assignment8Ctrl',
+        controllerAs: 'assignment8'
+      })
       .when('/dontclicme', {
         templateUrl: 'views/me.html',
         controller: 'MeCtrl',

@@ -1,0 +1,116 @@
+<div class="header">
+  <h1>Assignment 8</h1>
+</div>
+<div class="assignment">
+  <ol>
+    <li>
+      Modify your Marvel Lambda Application to:
+      <ul>
+        <li>Log in DynamoDB:</li>
+        <ul>
+          <li>Id: Id of the document</li>
+          <li>StartTime: Time stamp when the Manager lambda started.</li>
+          <li>EndTime: Time stamp when the Manager lambda ended.</li>
+          <li>SingleQuantity: How many Single lambdas where executed.</li>
+          <li>Character1: Information about the first character.</li>
+          <li>Character2: Information about the first character.</li>
+          <li>MemoryReserved: How much memory was reserved for Manager lambda.</li>
+          <li>MemoryUsed: How much memory was used for Manager lambda.</li>
+        </ul>
+      </ul>
+      <pre style="font-size: x-small">
+        <code>  'use strict'; </code>
+        <code>   </code>
+        <code>  const lodash = require('lodash'); </code>
+        <code>  const Promise = require('bluebird'); </code>
+        <code>  const AWS = require('aws-sdk'); </code>
+        <code>  const cloudWatchLogs = new AWS.CloudWatchLogs({'region': 'us-east-1'}); </code>
+        <code>  const dynamodb = new AWS.DynamoDB({'region': 'us-east-1'}); </code>
+        <code>   </code>
+        <code>  module.exports.post = (event, context) => { </code>
+        <code>    setTimeout(logEvents, 20000); </code>
+        <code>   </code>
+        <code>    function logEvents() { </code>
+        <code>      getLambdaMemoryLogs(event.requestId).then(function(memory) { </code>
+        <code>        let item = { </code>
+        <code>          'Id': {S: 'log-' + event.requestId}, </code>
+        <code>          'StartTime': {N: event.start}, </code>
+        <code>          'EndTime': {N: event.end}, </code>
+        <code>          'SingleQuantity': {N: event.lambdaCount}, </code>
+        <code>          'Character1': {N: event.character1}, </code>
+        <code>          'Character2': {N: event.character2}, </code>
+        <code>          'MemoryReserved': {S: memory.memorySize}, </code>
+        <code>          'MemoryUsed': {S: memory.memoryUsed} </code>
+        <code>        }; </code>
+        <code>        let params = { </code>
+        <code>          TableName: 'payan-marvel-logs', </code>
+        <code>          Item: item </code>
+        <code>        } </code>
+        <code>        putItem(params); </code>
+        <code>      }).catch(function(error) { </code>
+        <code>        console.log(error); </code>
+        <code>      }); </code>
+        <code>    } </code>
+        <code>  } </code>
+        <code>   </code>
+        <code>  var getLambdaMemoryLogs = Promise.method(function(requestId) { </code>
+        <code>    return new Promise(function(resolve) { </code>
+        <code>      var params = { </code>
+        <code>        logGroupName: '/aws/lambda/payan-marvel-service-dev-get-common', </code>
+        <code>        filterPattern: 'REPORT', </code>
+        <code>        interleaved: true </code>
+        <code>      }; </code>
+        <code>       </code>
+        <code>      cloudWatchLogs.filterLogEvents(params, function(err, data) { </code>
+        <code>        if (err) console.log(err, err.stack); </code>
+        <code>        else { </code>
+        <code>          let logStreams = data.events; </code>
+        <code>          let lambdaLog = lodash.filter( </code>
+        <code>            logStreams, log => log.message.includes(requestId))[0]; </code>
+        <code>       </code>
+        <code>          let memorySize = lambdaLog.message.match(/Memory Size: (.*)\tM/)[1]; </code>
+        <code>          let memoryUsed = lambdaLog.message.match(/Memory Used: (.*)\t/)[1]; </code>
+        <code>          resolve({'memorySize': memorySize, 'memoryUsed': memoryUsed}); </code>
+        <code>        } </code>
+        <code>      }); </code>
+        <code>    }); </code>
+        <code>  }); </code>
+        <code>   </code>
+        <code>  var putItem = Promise.method(function(params) { </code>
+        <code>    return new Promise(function(resolve) { </code>
+        <code>      dynamodb.putItem(params, function(err, data) { </code>
+        <code>        if (err) console.log(err); </code>
+        <code>        else     resolve(data); </code>
+        <code>      }); </code>
+        <code>    }); </code>
+        <code>  }); </code>
+        <code>     </code>
+      </pre>
+      <p>Source: <a href="https://github.com/PayanCloudComputing/Assignment8/blob/master/logRequest.js" target="_blank">logRequest.js</a> </p>
+    </li>
+    <li>
+      Create DynamoDB using a CloudFormation Template.
+      <pre>
+        <code>  AWSTemplateFormatVersion: "2010-09-09" </code>
+        <code>  Resources: </code>
+        <code>    payanMarvelLogsTable: </code>
+        <code>      Type: "AWS::DynamoDB::Table" </code>
+        <code>      Properties: </code>
+        <code>        AttributeDefinitions: </code>
+        <code>          - </code>
+        <code>            AttributeName: "Id" </code>
+        <code>            AttributeType: "S" </code>
+        <code>        KeySchema: </code>
+        <code>          - </code>
+        <code>            AttributeName: "Id" </code>
+        <code>            KeyType: "HASH" </code>
+        <code>        ProvisionedThroughput: </code>
+        <code>          ReadCapacityUnits: "5" </code>
+        <code>          WriteCapacityUnits: "5" </code>
+        <code>        TableName: "payan-marvel-logs" </code>
+        <code>     </code>
+      </pre>
+      <p>Source: <a href="https://github.com/PayanCloudComputing/Assignment8/blob/master/make-table.yaml" target="_blank">make-table.yaml</a></p>
+    </li>
+  </ol>
+</div>
