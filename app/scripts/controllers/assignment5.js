@@ -17,7 +17,7 @@ angular.module('a1App')
 
     $scope.show = false;
 
-    var baseEndPoint = 'https://wlmx0qc824.execute-api.us-east-1.amazonaws.com/dev/characters';
+    var baseEndPoint = 'https://zbx7kllomg.execute-api.us-east-1.amazonaws.com/dev/characters';
     var headers = {};
 
     $scope.secure = false;

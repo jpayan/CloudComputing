@@ -17,13 +17,14 @@ angular.module('a1App')
 
     $scope.show = false;
 
-    var baseEndPoint = 'https://wlmx0qc824.execute-api.us-east-1.amazonaws.com/dev/characters';
+    var baseEndPoint = 'https://zbx7kllomg.execute-api.us-east-1.amazonaws.com/dev/characters';
     var config = {
       headers: {'x-api-key': '80cSycaEqPEQxCScdTmgfj5hXszqBG1JHkQaENe0'}
     };
 
     $scope.selected = true;
-    $http.get(baseEndPoint, config).then(
+    $http.get(baseEndPoint, config)
+    .then(
       function success(response) {
         $scope.selected = false;
         $scope.characters = response.data;
